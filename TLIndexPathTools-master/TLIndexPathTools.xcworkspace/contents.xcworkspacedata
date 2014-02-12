@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:TLIndexPathTools.xcodeproj">
+   </FileRef>
+   <Group
+      location = "container:"
+      name = "Examples">
+      <FileRef
+         location = "group:Examples/Shuffle/Shuffle.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Examples/Settings/Settings.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Examples/Core Data/Core Data.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Examples/No Results/No Results.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Examples/Collapse/Collapse.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Examples/Sort/Sort.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Examples/Outline/Outline.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Examples/JSON/JSON.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Examples/Minimal/Minimal.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Examples/Dynamic Height/Dynamic Height.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Examples/Section Info/Section Info.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Examples/Blocks/Blocks.xcodeproj">
+      </FileRef>
+   </Group>
+</Workspace>

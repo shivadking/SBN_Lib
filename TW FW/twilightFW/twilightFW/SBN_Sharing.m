@@ -101,7 +101,8 @@ UIViewController *locParent;
 #pragma mark - Default Phone/ SMS/ Email/ MAP/ Browser
 -(void) SB_OpenDefaultPhoneApp_withPhoneNum:(NSString*) Phone_Number
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",Phone_Number]]];
+    NSString *phoneNumber = [@"telprompt://" stringByAppendingString:Phone_Number];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
 }
 
 -(void) SB_OpenDefaultSMSApp_withPhoneNum:(NSString*) Phone_Number

@@ -4,7 +4,7 @@
 //
 //  Created by Mini Mac i72 on 1/14/14.
 //  Copyright (c) 2014 TWILIGHT SOFTWARES. All rights reserved.
-// sivabalan@twilightsoftwares.com
+// Dev @ sivabalan@twilightsoftwares.com
 
 #import "SBN_RSSReader.h"
 
@@ -17,7 +17,7 @@ NSString *locIdentifierName;
 - (void)SB_RSSReader_Call:(NSString *)URL withMainTag:(NSString*) MainTagName withTagKeys:(NSMutableArray*) keyArray withIdentifier:(NSString*) identifierName
 {
     locIdentifierName = identifierName;
-    Mortgage_Rates = [[NSMutableArray alloc] init];
+    arrFeedData = [[NSMutableArray alloc] init];
     mainTagName = MainTagName;
     dic = [[NSMutableDictionary alloc] init];
     keys = keyArray;
@@ -38,13 +38,12 @@ NSString *locIdentifierName;
     [rssParser setShouldResolveExternalEntities:NO];
 	
     [rssParser parse];
-	
 }
 
 - (void)SB_RSSReader_Call_NSMutableData:(NSMutableData*) _responseData withMainTag:(NSString*) MainTagName withTagKeys:(NSMutableArray*) keyArray withIdentifier:(NSString*) identifierName
 {
     locIdentifierName = identifierName;
-    Mortgage_Rates = [[NSMutableArray alloc] init];
+    arrFeedData = [[NSMutableArray alloc] init];
     mainTagName = MainTagName;
     dic = [[NSMutableDictionary alloc] init];
     keys = keyArray;
@@ -65,7 +64,6 @@ NSString *locIdentifierName;
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
 	NSString * errorString = [NSString stringWithFormat:@"Unable to download story feed from web site (Error code %i )", [parseError code]];
 	//NSLog(@"error parsing XML: %@", errorString);
-    
 	UIAlertView * errorAlert = [[UIAlertView alloc] initWithTitle:@"Error loading content" message:errorString delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
 	[errorAlert show];
 }
@@ -92,7 +90,7 @@ NSString *locIdentifierName;
             [item setObject:[dic objectForKey:[keys objectAtIndex:i]] forKey:[keys objectAtIndex:i]];
         }
         
-        [Mortgage_Rates addObject:[item copy]];
+        [arrFeedData addObject:[item copy]];
 	}
 	
 }
@@ -106,17 +104,12 @@ NSString *locIdentifierName;
             [dic setObject:[NSString stringWithFormat:@"%@%@",str,string] forKey:[keys objectAtIndex:i]];
         }
     }
-    
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
-	
 	[activityIndicator stopAnimating];
 	[activityIndicator removeFromSuperview];
-    
-    [_delegate getXMLContentData:Mortgage_Rates:locIdentifierName];
-  
-   // NSLog(@"Mortgage_Rates ==> %@",[[Mortgage_Rates objectAtIndex:0] objectForKey:@"title"]);
+    [_delegate getXMLContentData:arrFeedData:locIdentifierName];
 }
 
 

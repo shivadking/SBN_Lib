@@ -30,6 +30,7 @@
     
     [self appDetails];
     
+    [self dateProcess];
     
 }
 
@@ -201,5 +202,41 @@
 - (IBAction)btnSendEmail:(id)sender {
     [[SBN_Sharing getCommon] SB_OpenDefaultEmailApp_withToAddress:@"sivablan@twilightsoftwares.com" withSubject:@"Subject" withBody:@"Hi Shiva"];
 }
+
+#pragma mark - DateTime Process
+-(void) dateProcess
+{
+    NSDate *date = [NSDate new];
+    NSLog(@"Date => %@\n\n\n",[date toStringWithFormat:@"dd/MM/YYYY"]);
+    NSLog(@"dateWithoutTime => %@\n\n\n",[date dateWithoutTime]);
+    NSLog(@"dateByAddingMonths => %@\n\n\n",[date dateByAddingMonths:1]);
+    NSLog(@"dateByAddingDays => %@\n\n\n",[date dateByAddingDays:1]);
+    NSLog(@"dateByAddingYears => %@\n\n\n",[date dateByAddingYears:1]);
+    NSLog(@"dateBySubMonths => %@\n\n\n",[date dateByAddingMonths:-1]);
+    NSLog(@"dateBySubDays => %@\n\n\n",[date dateByAddingDays:-1]);
+    NSLog(@"dateBySubYears => %@\n\n\n",[date dateByAddingYears:-1]);
+    NSLog(@"monthStartDate => %@\n\n\n",[date monthStartDate]);
+    NSLog(@"midnightDate => %@\n\n\n",[date midnightDate]);
+    NSLog(@"numberOfDaysInMonth => %d\n\n\n",[date numberOfDaysInMonth]);
+    NSLog(@"weekday => %d\n\n\n",[date weekday]);
+    NSLog(@"daysSinceDate => %d\n\n\n",[date daysSinceDate:[date dateByAddingDays:-1]]);
+    
+    
+    NSDate *dates = [@"Fri, 28 Feb 2014 18:00:00 GMT" toDateWithFormat:@"EEE, dd MMM yyyy HH:mm:ss ZZZ"];
+    NSLog(@"dates => %@\n\n\n",dates);
+    
+    // Usage (#import "NSString+Date.h")
+    NSString* string =  [[NSDate date] toStringWithFormat:@"EEE, dd MMM yyyy HH:mm:ss ZZZ"];
+     NSLog(@"curDate String => %@\n\n\n",string);
+    
+    NSDate* date2 = [string toDateWithFormat:@"EEE, dd MMM yyyy HH:mm:ss ZZZ"];
+     NSLog(@"curDate from str => %@\n\n\n",date2);
+    
+    NSLog(@"curMonth=%d, curDay=%d, curYear=%d, curWeek=%d\n\n\n",[dates MonthInNumber],[[NSDate date] DayInNumber],[[NSDate date] YearInNumber],[[NSDate date] WeekInNumber]);
+    
+    NSLog(@"monthString=%@, dayString=%@, monthString=%@, dayString=%@\n\n\n",[dates MonthInString_Long],[dates DayInString_Long],[dates MonthInString_Short],[dates DayInString_Short]);
+
+}
+
 
 @end

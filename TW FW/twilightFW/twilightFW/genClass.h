@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface genClass : NSObject
+@interface genClass : NSObject<UIPrintInteractionControllerDelegate>
 +(genClass *)getCommon;
+- (BOOL) isNetworkAvailable;
 - (NSMutableDictionary *)appNameAndVersionNumberDisplayString;
 +(void)makeTost:(id)sender withMessage:(NSString *)message;
 +(void) print;
@@ -19,4 +20,7 @@
 +(UIToolbar *)getKeyboardToolbar:(id)sender type:(int) type;
     // S - Space, P - Previous, N - Next, D - Done, C - Cancel, Cl - Clear
     // type: 0 - (P,N,S,D), 1 - (S,D), 2 - (C,S,D), 3 - (S,Cl), 4 - (S,N)
+
+#pragma mark - PDF
+-(void) printPDF_fileFromLocalBundle:(NSString*) pdfStreem; // pass Base64Byte String and make a print
 @end

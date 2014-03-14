@@ -14,10 +14,17 @@
 #define FORMAT_DAY @"EEEE"
 #define FORMAT_MONTH_SHORT @"MMM"
 #define FORMAT_DAY_SHORT @"EEE"
+
 /**
  * NSDate convenience methods which shortens some of frequently used formatting and date altering methods.
  */
 @interface NSDate (SBN_Helpers)
+
+
+//
+- (NSString *)stringForDisplayFromDate:(NSDate *)date;
+- (NSString *)stringWithFormat:(NSString *)format;
+//
 
 /**
  * Returns current (self) date without time components. Effectively, it's just a beginning of a day.

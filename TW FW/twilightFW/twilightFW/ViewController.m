@@ -13,6 +13,8 @@
 #import "DejalActivityView.h"
 #import "dateTimeClass.h"
 #import "SBN_Sharing.h"
+#import "NSString+SBN_Helpers.h"
+#import "JSONKit.h"
 
 @interface ViewController ()
 
@@ -28,10 +30,36 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    [self appDetails];
+    //Date Check 03/12/14
+    NSDate *dt = [@"03/5/14" toDateWithFormat:@"mm/DD/YY"];
+    NSLog(@"dt => %@",[dt stringWithFormat:@"mm/DD/YY"]);
     
+    [self appDetails];
     [self dateProcess];
     
+    [self jsonFormation];
+}
+
+-(void) jsonFormation
+{
+    NSMutableDictionary *dic2 = [[NSMutableDictionary alloc] init];
+    [dic2 setObject:[NSNumber numberWithInt:1] forKey:@"innerType"];
+    [dic2 setObject:@"pinType" forKey:@"innerPin"];
+    NSMutableArray *sendArr1 = [[NSMutableArray alloc] init];
+    [sendArr1 addObject:dic2];
+    
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    [dic setObject:[NSNumber numberWithInt:1] forKey:@"type"];
+    [dic setObject:@"pinType" forKey:@"pin"];
+    [dic setObject:sendArr1 forKey:@"array"];
+    
+    NSMutableArray *sendArr = [[NSMutableArray alloc] init];
+    [sendArr addObject:dic];
+    
+    
+    
+    //NSLog(@"sendArr ==> %@",sendArr);
+    NSLog(@"sendArr ==> %@",[sendArr JSONString]);
 }
 
 -(void) ShowLoader

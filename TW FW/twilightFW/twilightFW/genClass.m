@@ -8,6 +8,9 @@
 
 #import "genClass.h"
 #import "defs.h"
+#import "NSData+SBN_Base64.h"
+#import <SystemConfiguration/SystemConfiguration.h>
+#include <netdb.h>
 
 @implementation genClass
 
@@ -22,6 +25,41 @@ NSCharacterSet *nonNumberSet;
     
     return __instance;
 }
+
+- (BOOL) isNetworkAvailable
+{
+    // Create zero addy
+    struct sockaddr_in zeroAddress;
+    bzero(&zeroAddress, sizeof(zeroAddress));
+    zeroAddress.sin_len = sizeof(zeroAddress);
+    zeroAddress.sin_family = AF_INET;
+    
+    // Recover reachability flags
+    SCNetworkReachabilityRef defaultRouteReachability = SCNetworkReachabilityCreateWithAddress(NULL, (struct sockaddr *)&zeroAddress);
+    SCNetworkReachabilityFlags flags;
+    
+    BOOL didRetrieveFlags = SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags);
+    CFRelease(defaultRouteReachability);
+    
+    if (!didRetrieveFlags)
+    {
+        printf("Error. Could not recover network reachability flags\n");
+        return NO;
+    }
+    
+    BOOL isReachable = ((flags & kSCNetworkFlagsReachable) != 0);
+    BOOL needsConnection = ((flags & kSCNetworkFlagsConnectionRequired) != 0);
+    
+    BOOL isAvailNet = (isReachable && !needsConnection) ? YES : NO;
+    
+    if(!isAvailNet)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"App Title Here" message:@"Internal error" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+    return isAvailNet;
+}
+
 - (NSMutableDictionary *)appNameAndVersionNumberDisplayString {
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *appDisplayName = [infoDictionary objectForKey:@"CFBundleDisplayName"];
@@ -557,9 +595,52 @@ NSCharacterSet *nonNumberSet;
         }
     }
     return nil;
+  
+}
+
+-(void) printPDF_fileFromLocalBundle:(NSString*) pdfStreem
+{
+    NSData *streamData = [NSData dataFromBase64String:pdfStreem];
     
+    NSArray *docDirectories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docDirectory = [docDirectories objectAtIndex:0];
+    NSString *fileName = [docDirectory stringByAppendingPathComponent:@"Reports.PDF"];
+    [streamData writeToFile:fileName atomically:NO];
     
+    NSString *resourceDocPath = [[NSString alloc] initWithString:[[[[NSBundle mainBundle] resourcePath] stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"Documents"]];
+    NSString *path = [resourceDocPath stringByAppendingPathComponent:@"Reports.PDF"];
+    NSData *myData = [NSData dataWithContentsOfFile: path];
+    NSLog(@"Path => %@",path);
+    //sdfsadfsdaf
     
+	UIPrintInteractionController *pic = [UIPrintInteractionController sharedPrintController];
+	if(pic && [UIPrintInteractionController canPrintData: myData] ) {
+		
+		pic.delegate = self;
+		
+		UIPrintInfo *printInfo = [UIPrintInfo printInfo];
+		printInfo.outputType = UIPrintInfoOutputGeneral;
+		printInfo.jobName = [path lastPathComponent];
+		printInfo.duplex = UIPrintInfoDuplexLongEdge;
+		pic.printInfo = printInfo;
+		pic.showsPageRange = YES;
+		pic.printingItem = myData;
+		
+		void (^completionHandler)(UIPrintInteractionController *, BOOL, NSError *) = ^(UIPrintInteractionController *pic, BOOL completed, NSError *error) {
+			//self.content = nil;
+			if (!completed && error) {
+				NSLog(@"FAILED! due to error in domain %@ with error code %u", error.domain, error.code);
+			}
+		};
+		
+		[pic presentAnimated:YES completionHandler:completionHandler];
+		
+	}else
+    {
+        //[[kCommon getCommon] toastWithMessage:@"No printer available"];
+        NSLog(@"No printer available");
+        
+    }
 }
 
 

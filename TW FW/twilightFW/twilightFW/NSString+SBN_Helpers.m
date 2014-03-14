@@ -74,6 +74,25 @@
 	return reversedStr;
 }
 
+- (BOOL)isNumeric
+{
+    static NSCharacterSet *csetNonDigits = nil;
+    if (!csetNonDigits) {
+        csetNonDigits = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+    }
+    
+    return ([self rangeOfCharacterFromSet:csetNonDigits].location == NSNotFound);
+}
+
+-(NSString*) isNull
+{
+    if (self == (id)[NSNull null] || self.length == 0 )
+    {
+        return @"";
+    }
+    return self;
+}
+
 #pragma mark - Validations
 //--------------------------------------------------------------
 - (BOOL)validateNotEmpty

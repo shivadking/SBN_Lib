@@ -22,6 +22,8 @@
 - (BOOL)containsString:(NSString *)aString;
 - (NSString*) escape;
 - (NSString*) reverseString;
+- (BOOL)isNumeric;
+-(NSString*) isNull;
 
 #pragma mark - Validations
 //--------------------------------------------------------------

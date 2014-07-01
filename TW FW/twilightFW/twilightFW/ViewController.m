@@ -56,8 +56,6 @@
     NSMutableArray *sendArr = [[NSMutableArray alloc] init];
     [sendArr addObject:dic];
     
-    
-    
     //NSLog(@"sendArr ==> %@",sendArr);
     NSLog(@"sendArr ==> %@",[sendArr JSONString]);
 }

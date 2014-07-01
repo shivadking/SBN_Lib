@@ -21,7 +21,7 @@
 -(void) pickCamPictures:(int) caseVal
 {
     UIImagePickerController *imagePicker = [UIImagePickerController new];
-    imagePicker.delegate = self;
+    imagePicker.delegate = _parentClass;
     //int caseVal = 0;
     switch (caseVal) {
         case 0:
